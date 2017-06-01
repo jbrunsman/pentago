@@ -27,33 +27,42 @@ var gamePiece = {
 }
 */
 
-var quad = [
+var three = [
     ["a","b","c"],
     ["d","e","f"],
     ["g","h","i"]
 ]
 
-var pent = quad;
+var four = [
+    ["a","b","c","d"],
+    ["e","f","g","h"],
+    ["i","j","k","l"],
+    ["m","n","o","p"]
+]
 
 function rotate(inputArray, direction) {
     // direction is Boolean: 0 is counter-clockwise, 1 is clockwise
     var n2;
+    var i2;
     var outputArray = [];
 
     for (i = 0; i < inputArray.length; i++) {
         i2 = (inputArray.length - 1) - i;
-        outputArray[i] = inputArray[i].slice();
+        outputArray[i] = [];
         for (n = 0; n < inputArray[i].length; n++) {
-            n2 = (inputArray[n].length - 1) - n;
+            n2 = (inputArray.length - 1) - n;
             if (direction) {
-                outputArray[i][n] = inputArray[n2][i];
+                outputArray[i].push(inputArray[n2][i]);
             } else {
-                outputArray[i][n] = inputArray[n][i2];
+                outputArray[i].push(inputArray[n][i2]);
             }
         }
     }
     
-    display(outputArray);
+    for (a = 0; a < inputArray.length; a++) {
+        inputArray[a] = outputArray[a].slice();
+    }
+    display(inputArray);
 }
 
 function display(inputArray) {
