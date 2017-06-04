@@ -27,6 +27,8 @@ var gamePiece = {
 }
 */
 
+
+
 var three = [
     ["a","b","c"],
     ["d","e","f"],
@@ -71,3 +73,36 @@ function display(inputArray) {
         console.log(displayLine);
     }
 }
+
+
+var gamePieces = document.getElementsByClassName("piece");
+
+gamePieces.forEach(function(element) {
+    element.addEventListener(onclick, place())
+}, this);
+
+function place() {
+    this.fill = "white";
+}
+
+for (var i = 0; i < 4; i++) {
+    var quad = function() {
+        if (i = 0) {
+            return "nw";
+        } else if (i = 1) {
+            return "ne";
+        } else if (i = 2) {
+            return "sw";
+        } else {
+            return "se";
+        }
+    }
+    for (var n = 0; n < gamePieces.length; n++) {
+        
+    }
+}
+
+for (var i = 0; i < gamePieces.length; i++)
+    var quad = function() {
+        if i 
+    }
