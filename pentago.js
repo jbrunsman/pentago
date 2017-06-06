@@ -25,7 +25,6 @@ var gamePiece = {
         }
     ,}
 }
-*/
 
 
 
@@ -106,3 +105,18 @@ for (var i = 0; i < gamePieces.length; i++)
     var quad = function() {
         if i 
     }
+    */
+var whiteTurn = true;
+
+function pieceClick(target) {
+    //if (target.fill == "crimson") {
+
+        if (whiteTurn) {
+            target.setAttribute("fill", "white");
+            whiteTurn = false;
+        } else {
+            target.setAttribute("fill", "black");
+            whiteTurn = true;
+        }
+    //}
+}

@@ -12,48 +12,48 @@
             <div id="board">
                 <svg width="600" height="600">
                     <rect id="ne" rx="20" ry="20" width="300" height="300" fill="darkred"></rect>
-                        <circle class="piece" id="neAA" cx="50" cy="50" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="neAB" cx="150" cy="50" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="neAC" cx="250" cy="50" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="neBA" cx="50" cy="150" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="neBB" cx="150" cy="150" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="neBC" cx="250" cy="150" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="neCA" cx="50" cy="250" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="neCB" cx="150" cy="250" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="neCC" cx="250" cy="250" r="30" fill="crimson"></circle>
+                        <circle class="piece" id="neAA" cx="50" cy="50" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="neAB" cx="150" cy="50" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="neAC" cx="250" cy="50" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="neBA" cx="50" cy="150" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="neBB" cx="150" cy="150" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="neBC" cx="250" cy="150" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="neCA" cx="50" cy="250" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="neCB" cx="150" cy="250" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="neCC" cx="250" cy="250" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
 
                     <rect id="nw" rx="20" ry="20" x="301" width="300" height="300" style="fill:darkred;"></rect>
-                        <circle class="piece" id="nwAA" cx="350" cy="50" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="nwAB" cx="450" cy="50" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="nwAC" cx="550" cy="50" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="nwBA" cx="350" cy="150" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="nwBB" cx="450" cy="150" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="nwBC" cx="550" cy="150" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="nwCA" cx="350" cy="250" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="nwCB" cx="450" cy="250" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="nwCC" cx="550" cy="250" r="30" fill="crimson"></circle>
+                        <circle class="piece" id="nwAA" cx="350" cy="50" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="nwAB" cx="450" cy="50" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="nwAC" cx="550" cy="50" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="nwBA" cx="350" cy="150" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="nwBB" cx="450" cy="150" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="nwBC" cx="550" cy="150" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="nwCA" cx="350" cy="250" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="nwCB" cx="450" cy="250" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="nwCC" cx="550" cy="250" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
 
                     <rect id="se" rx="20" ry="20" y="301" width="300" height="300" style="fill:darkred;"></rect>
-                        <circle class="piece" id="seAA" cx="50" cy="350" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="seAB" cx="150" cy="350" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="seAC" cx="250" cy="350" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="seBA" cx="50" cy="450" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="seBB" cx="150" cy="450" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="seBC" cx="250" cy="450" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="seCA" cx="50" cy="550" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="seCB" cx="150" cy="550" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="seCC" cx="250" cy="550" r="30" fill="crimson"></circle>
+                        <circle class="piece" id="seAA" cx="50" cy="350" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="seAB" cx="150" cy="350" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="seAC" cx="250" cy="350" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="seBA" cx="50" cy="450" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="seBB" cx="150" cy="450" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="seBC" cx="250" cy="450" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="seCA" cx="50" cy="550" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="seCB" cx="150" cy="550" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="seCC" cx="250" cy="550" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
 
                     <rect id="sw" rx="20" ry="20" x="301" y="301" width="300" height="300" style="fill:darkred;"></rect>
-                        <circle class="piece" id="swAA" cx="350" cy="350" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="swAB" cx="450" cy="350" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="swAC" cx="550" cy="350" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="swBA" cx="350" cy="450" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="swBB" cx="450" cy="450" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="swBC" cx="550" cy="450" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="swCA" cx="350" cy="550" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="swCB" cx="450" cy="550" r="30" fill="crimson"></circle>
-                        <circle class="piece" id="swCC" cx="550" cy="550" r="30" fill="crimson"></circle>
+                        <circle class="piece" id="swAA" cx="350" cy="350" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="swAB" cx="450" cy="350" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="swAC" cx="550" cy="350" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="swBA" cx="350" cy="450" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="swBB" cx="450" cy="450" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="swBC" cx="550" cy="450" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="swCA" cx="350" cy="550" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="swCB" cx="450" cy="550" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
+                        <circle class="piece" id="swCC" cx="550" cy="550" r="30" fill="crimson" onclick="pieceClick(this)"></circle>
 
                 </svg>
                 
