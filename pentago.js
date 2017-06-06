@@ -109,7 +109,7 @@ for (var i = 0; i < gamePieces.length; i++)
 var whiteTurn = true;
 
 function pieceClick(target) {
-    //if (target.fill == "crimson") {
+    if (target.getAttribute("fill") == "crimson") {
 
         if (whiteTurn) {
             target.setAttribute("fill", "white");
@@ -118,5 +118,5 @@ function pieceClick(target) {
             target.setAttribute("fill", "black");
             whiteTurn = true;
         }
-    //}
+    }
 }
