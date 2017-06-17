@@ -1,122 +1,84 @@
-/*
-var gameBoard = {
-    start : function() {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        var boardSize = 0.9;
-        if (w > h) {
-            $("#board").width = h * boardSize;
-        } else {
-            $("#board").width = w * boardSize;
+function populateBoard() {
+    var board = [];
+    for (quad = 0; quad < 4; quad++) {
+        board[quad] = [];
+        for (row = 0; row < 3; row++) {
+            board[quad][row] = [];
+            for (col = 0; col < 3; col++) {
+                board[quad][row][col] = 0;
+            }
         }
-        $("#board").height = $("#board").width;
+    }
+    return board;
+}
+
+var gameBoard = populateBoard();
+var whiteTurn = false;
+var rotateTurn = false;
+
+function pieceClick(target, quad, row, col) {
+
+    if (gameBoard[quad][row][col] == 0 && rotateTurn === false) {
+
+        if (whiteTurn) {
+            gameBoard[quad][row][col] = 1;
+            refreshBoard();
+        } else {
+            gameBoard[quad][row][col] = -1;
+            refreshBoard();
+        }
+    rotateTurn = true;
     }
 }
 
-var quadrant = {
-        
-}
-
-var gamePiece = {
-    var placement,
-    place(opt) {
-        if (!placement) {
-            placement = opt
+function refreshBoard() {
+    for (quad = 0; quad < gameBoard.length; quad++) {
+        currentQuad = "quad" + quad;
+        board = document.getElementById(currentQuad);
+        for (row = 0; row < gameBoard[quad].length; row++) {
+            currentRow = "row" + row;
+            workingRow = board.getElementById(currentRow);
+            for (col = 0; col < gameBoard[quad][row].length; col++) {
+                pieces = workingRow.getElementsByClassName("piece");
+                if (gameBoard[quad][row][col] === 1) {
+                    pieces[col].setAttribute("fill", "white");
+                } else if (gameBoard[quad][row][col] === -1) {
+                    pieces[col].setAttribute("fill", "black");
+                } else {
+                    pieces[col].setAttribute("fill", "crimson");
+                }
+            }
         }
-    ,}
+    }
 }
 
+function rotateQuad(quad, direction) {
+    if (rotateTurn === false) {
+        return;
+    }
 
-
-var three = [
-    ["a","b","c"],
-    ["d","e","f"],
-    ["g","h","i"]
-]
-
-var four = [
-    ["a","b","c","d"],
-    ["e","f","g","h"],
-    ["i","j","k","l"],
-    ["m","n","o","p"]
-]
-
-function rotate(inputArray, direction) {
     // direction is Boolean: 0 is counter-clockwise, 1 is clockwise
     var n2;
     var i2;
     var outputArray = [];
 
-    for (i = 0; i < inputArray.length; i++) {
-        i2 = (inputArray.length - 1) - i;
+    for (i = 0; i < gameBoard[quad].length; i++) {
+        i2 = (gameBoard[quad].length - 1) - i;
         outputArray[i] = [];
-        for (n = 0; n < inputArray[i].length; n++) {
-            n2 = (inputArray.length - 1) - n;
+        for (n = 0; n < gameBoard[quad][i].length; n++) {
+            n2 = (gameBoard[quad].length - 1) - n;
             if (direction) {
-                outputArray[i].push(inputArray[n2][i]);
+                outputArray[i].push(gameBoard[quad][n2][i]);
             } else {
-                outputArray[i].push(inputArray[n][i2]);
+                outputArray[i].push(gameBoard[quad][n][i2]);
             }
         }
     }
     
-    for (a = 0; a < inputArray.length; a++) {
-        inputArray[a] = outputArray[a].slice();
+    for (a = 0; a < gameBoard[quad].length; a++) {
+        gameBoard[quad][a] = outputArray[a].slice();
     }
-    display(inputArray);
-}
-
-function display(inputArray) {
-    for (i = 0; i < inputArray.length; i++) {
-        var displayLine = inputArray[i].toString() + "\n"
-        console.log(displayLine);
-    }
-}
-
-
-var gamePieces = document.getElementsByClassName("piece");
-
-gamePieces.forEach(function(element) {
-    element.addEventListener(onclick, place())
-}, this);
-
-function place() {
-    this.fill = "white";
-}
-
-for (var i = 0; i < 4; i++) {
-    var quad = function() {
-        if (i = 0) {
-            return "nw";
-        } else if (i = 1) {
-            return "ne";
-        } else if (i = 2) {
-            return "sw";
-        } else {
-            return "se";
-        }
-    }
-    for (var n = 0; n < gamePieces.length; n++) {
-        
-    }
-}
-
-for (var i = 0; i < gamePieces.length; i++)
-    var quad = function() {
-        if i 
-    }
-    */
-var whiteTurn = true;
-
-function pieceClick(target) {
-    if (target.getAttribute("fill") == "crimson") {
-
-        if (whiteTurn) {
-            target.setAttribute("fill", "white");
-            whiteTurn = false;
-        } else {
-            target.setAttribute("fill", "black");
-            whiteTurn = true;
-        }
-    }
+    whiteTurn = !whiteTurn;
+    rotateTurn = false;
+    refreshBoard();
 }
