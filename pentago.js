@@ -82,3 +82,21 @@ function rotateQuad(quad, direction) {
     rotateTurn = false;
     refreshBoard();
 }
+
+function flattenBoard() {
+    var flat = [];
+    var next;
+    for (quad = 0; quad < 3; quad += 2) {
+        for (row = 0; row < 3; row++) {
+            for (col = 0; col < 6; col++) {
+                if (col < 3) {
+                    next = gameBoard[quad][row][col];
+                } else {
+                    next = gameBoard[quad+1][row][col-3];
+                }
+                flat.push(next);
+            }
+        }
+    }
+    console.log(flat);
+}
