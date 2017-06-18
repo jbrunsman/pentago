@@ -53,11 +53,12 @@ function refreshBoard() {
 }
 
 function rotateQuad(quad, direction) {
+    // direction is Boolean: 0 is counter-clockwise, 1 is clockwise
+
     if (rotateTurn === false) {
         return;
     }
 
-    // direction is Boolean: 0 is counter-clockwise, 1 is clockwise
     var n2;
     var i2;
     var outputArray = [];
@@ -81,7 +82,7 @@ function rotateQuad(quad, direction) {
     whiteTurn = !whiteTurn;
     rotateTurn = false;
     refreshBoard();
-    victoryCheck();
+    checkPhase();
 }
 
 function flattenBoard() {
@@ -102,51 +103,43 @@ function flattenBoard() {
     return flat;
 }
 
-function victoryCheck() {
-    var inspectionBoard = flattenBoard();
-    var searchPoint, startPoint, startingCheckCount;
-    var horizontal = true;
+function victoryCheck(startIncr, checkIncr, winCombos, shelf) {
+    var inspectionBoard = flattenBoard(); // move
+    var searchPoint;
+    var lastCheck;
+        
+    var tail = checkIncr == 5 ? 4 : 0; // shortcut for right diagonals
+    
+    var startPoint = 0 + tail;
 
-    for (var l = 0; l < 2; l++) {
-        startPoint = 0;
-        if (l == 1) {
-            horizontal = false;
+    for (var i = 0; i < winCombos; i++) {
+        lastCheck = 0;
+        if (i == winCombos / 2) {
+            startPoint = shelf + tail;
         }
-        for (var i = 0; i < 12; i++) {
-            var lastCheck = 0;
-            if (i == 6 && horizontal == true) {
-                startPoint = 1;
+        for (var n = 0; n < 5; n++) {
+
+            searchPoint = startPoint + (n * checkIncr);
+            
+            if (inspectionBoard[searchPoint] == 0) {
+                break;
             }
-            for (var n = 0; n < 5; n++) {
-                if (horizontal == true) {
-                    searchPoint = startPoint + n;
-                } else {
-                    searchPoint = startPoint + (n * 6);
-                }
-                if (inspectionBoard[searchPoint] == 0) {
-                    break;
-                }
-                if (lastCheck != 0 && lastCheck != inspectionBoard[searchPoint]) {
-                    break;
-                }
-                if (n == 4) {
-                    victoryScreen(lastCheck);
-                }
-                lastCheck = inspectionBoard[searchPoint];
+            if (lastCheck != 0 && lastCheck != inspectionBoard[searchPoint]) {
+                break;
             }
-            if (horizontal == true) {
-                startPoint += 6;
-            }else if (horizontal == false) {
-                startPoint += 1;
+            if (n == 4) {
+                victoryScreen(lastCheck);
             }
+            lastCheck = inspectionBoard[searchPoint];
         }
+        startPoint += startIncr;
     }
 }
 
-function victoryScreen(player) {
-    if (player > 0) {
-        console.log("White victory!")
-    } else {
-        console.log("Black victory!")
-    }
+function checkPhase() {
+    victoryCheck(6, 1, 12, 1); // horizontal
+    victoryCheck(1, 6, 12, 6); // vertical
+    victoryCheck(1, 7, 4, 6); // diagonal from left
+    victoryCheck(1, 5, 4, 6); // diagonal from right
+
 }
