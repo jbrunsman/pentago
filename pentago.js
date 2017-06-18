@@ -1,10 +1,10 @@
 function populateBoard() {
     var board = [];
-    for (quad = 0; quad < 4; quad++) {
+    for (var quad = 0; quad < 4; quad++) {
         board[quad] = [];
-        for (row = 0; row < 3; row++) {
+        for (var row = 0; row < 3; row++) {
             board[quad][row] = [];
-            for (col = 0; col < 3; col++) {
+            for (var col = 0; col < 3; col++) {
                 board[quad][row][col] = 0;
             }
         }
@@ -13,7 +13,7 @@ function populateBoard() {
 }
 
 var gameBoard = populateBoard();
-var whiteTurn = false;
+var whiteTurn = true;
 var rotateTurn = false;
 
 function pieceClick(target, quad, row, col) {
@@ -32,13 +32,13 @@ function pieceClick(target, quad, row, col) {
 }
 
 function refreshBoard() {
-    for (quad = 0; quad < gameBoard.length; quad++) {
+    for (var quad = 0; quad < gameBoard.length; quad++) {
         currentQuad = "quad" + quad;
         board = document.getElementById(currentQuad);
-        for (row = 0; row < gameBoard[quad].length; row++) {
+        for (var row = 0; row < gameBoard[quad].length; row++) {
             currentRow = "row" + row;
             workingRow = board.getElementById(currentRow);
-            for (col = 0; col < gameBoard[quad][row].length; col++) {
+            for (var col = 0; col < gameBoard[quad][row].length; col++) {
                 pieces = workingRow.getElementsByClassName("piece");
                 if (gameBoard[quad][row][col] === 1) {
                     pieces[col].setAttribute("fill", "white");
@@ -62,10 +62,10 @@ function rotateQuad(quad, direction) {
     var i2;
     var outputArray = [];
 
-    for (i = 0; i < gameBoard[quad].length; i++) {
+    for (var i = 0; i < gameBoard[quad].length; i++) {
         i2 = (gameBoard[quad].length - 1) - i;
         outputArray[i] = [];
-        for (n = 0; n < gameBoard[quad][i].length; n++) {
+        for (var n = 0; n < gameBoard[quad][i].length; n++) {
             n2 = (gameBoard[quad].length - 1) - n;
             if (direction) {
                 outputArray[i].push(gameBoard[quad][n2][i]);
@@ -75,19 +75,20 @@ function rotateQuad(quad, direction) {
         }
     }
     
-    for (a = 0; a < gameBoard[quad].length; a++) {
+    for (var a = 0; a < gameBoard[quad].length; a++) {
         gameBoard[quad][a] = outputArray[a].slice();
     }
     whiteTurn = !whiteTurn;
     rotateTurn = false;
     refreshBoard();
+    victoryCheck();
 }
 
 function flattenBoard() {
     var flat = [];
     var next;
-    for (quad = 0; quad < 3; quad += 2) {
-        for (row = 0; row < 3; row++) {
+    for (var quad = 0; quad < 3; quad += 2) {
+        for (var row = 0; row < 3; row++) {
             for (col = 0; col < 6; col++) {
                 if (col < 3) {
                     next = gameBoard[quad][row][col];
@@ -98,5 +99,54 @@ function flattenBoard() {
             }
         }
     }
-    console.log(flat);
+    return flat;
+}
+
+function victoryCheck() {
+    var inspectionBoard = flattenBoard();
+    var searchPoint, startPoint, startingCheckCount;
+    var horizontal = true;
+
+    for (var l = 0; l < 2; l++) {
+        startPoint = 0;
+        if (l == 1) {
+            horizontal = false;
+        }
+        for (var i = 0; i < 12; i++) {
+            var lastCheck = 0;
+            if (i == 6 && horizontal == true) {
+                startPoint = 1;
+            }
+            for (var n = 0; n < 5; n++) {
+                if (horizontal == true) {
+                    searchPoint = startPoint + n;
+                } else {
+                    searchPoint = startPoint + (n * 6);
+                }
+                if (inspectionBoard[searchPoint] == 0) {
+                    break;
+                }
+                if (lastCheck != 0 && lastCheck != inspectionBoard[searchPoint]) {
+                    break;
+                }
+                if (n == 4) {
+                    victoryScreen(lastCheck);
+                }
+                lastCheck = inspectionBoard[searchPoint];
+            }
+            if (horizontal == true) {
+                startPoint += 6;
+            }else if (horizontal == false) {
+                startPoint += 1;
+            }
+        }
+    }
+}
+
+function victoryScreen(player) {
+    if (player > 0) {
+        console.log("White victory!")
+    } else {
+        console.log("Black victory!")
+    }
 }
