@@ -15,6 +15,7 @@ function populateBoard() {
 var gameBoard = populateBoard();
 var whiteTurn = true;
 var rotateTurn = false;
+var gameOver = false;
 
 function pieceClick(target, quad, row, col) {
 
@@ -22,9 +23,13 @@ function pieceClick(target, quad, row, col) {
 
         if (whiteTurn) {
             gameBoard[quad][row][col] = 1;
+            var popwhite = new Audio('sound/pop_white.wav');
+            popwhite.play();
             refreshBoard();
         } else {
             gameBoard[quad][row][col] = -1;
+            var popblack = new Audio('sound/pop_black.wav');
+            popblack.play();
             refreshBoard();
         }
     rotateTurn = true;
@@ -79,8 +84,15 @@ function rotateQuad(quad, direction) {
     for (var a = 0; a < gameBoard[quad].length; a++) {
         gameBoard[quad][a] = outputArray[a].slice();
     }
-    whiteTurn = !whiteTurn;
-    rotateTurn = false;
+
+    if (whiteTurn) {
+        var rotatewhite = new Audio('sound/rotate_white.wav');
+        rotatewhite.play();
+    } else {
+        var rotateblack = new Audio('sound/rotate_black.wav');
+        rotateblack.play();
+    }
+
     refreshBoard();
     checkPhase();
 }
@@ -142,4 +154,15 @@ function checkPhase() {
     victoryCheck(1, 7, 4, 6); // diagonal from left
     victoryCheck(1, 5, 4, 6); // diagonal from right
 
+    turnPhase();
+}
+
+function turnPhase() {
+    whiteTurn = !whiteTurn;
+    rotateTurn = false;
+    if (whiteTurn) {
+        document.body.style.background = "white";
+    } else {
+        document.body.style.background = "black";
+    }
 }
