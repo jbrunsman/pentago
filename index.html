@@ -6,13 +6,13 @@
         <style>
             body { background: white; }
             #board { margin: auto; width: 700px; }
-            
+            #quad0, #quad1, #quad2, #quad3 { transform-origin: 50% 50%; }
         </style>
     </head>
     <body>
 
             <div id="board">
-                <svg width="700" height="700">
+                <svg width="700" height="700"> <!--
                     <circle class="rotator" id="0ccw" cx="25" cy="200" r="30" fill="gold" onclick="rotateQuad(0, false)"></circle>
                     <circle class="rotator" id="0cw" cx="200" cy="25" r="30" fill="gold" onclick="rotateQuad(0, true)"></circle>
                     <circle class="rotator" id="1ccw" cx="500" cy="25" r="30" fill="gold" onclick="rotateQuad(1, false)"></circle>
@@ -21,6 +21,7 @@
                     <circle class="rotator" id="2cw" cx="25" cy="500" r="30" fill="gold" onclick="rotateQuad(2, true)"></circle>
                     <circle class="rotator" id="3ccw" cx="675" cy="500" r="30" fill="gold" onclick="rotateQuad(3, false)"></circle>
                     <circle class="rotator" id="3cw" cx="500" cy="675" r="30" fill="gold" onclick="rotateQuad(3, true)"></circle>
+                    -->
 
                     <svg id="quad0" width="300" height="300" x="50" y="50">
                         <rect  rx="20" ry="20" width="300" height="300" fill="darkred"></rect>

@@ -13,14 +13,18 @@ function populateBoard() {
 }
 
 var gameBoard = populateBoard();
+
+// turn variables
 var whiteTurn = true;
 var rotateTurn = false;
 var gameOver = false;
 
+// rotation variables
+var dragging = false;
+var currentQuad;
+
 function pieceClick(target, quad, row, col) {
-
     if (gameBoard[quad][row][col] == 0 && rotateTurn === false) {
-
         if (whiteTurn) {
             gameBoard[quad][row][col] = 1;
             var popwhite = new Audio('sound/pop_white.wav');
@@ -32,11 +36,12 @@ function pieceClick(target, quad, row, col) {
             popblack.play();
             refreshBoard();
         }
-    rotateTurn = true;
+    checkPhase();
     }
 }
 
 function refreshBoard() {
+    // visibile board reflects the internal board
     for (var quad = 0; quad < gameBoard.length; quad++) {
         currentQuad = "quad" + quad;
         board = document.getElementById(currentQuad);
@@ -120,13 +125,13 @@ function victoryCheck(startIncr, checkIncr, winCombos, shelf) {
     var searchPoint;
     var lastCheck;
         
-    var tail = checkIncr == 5 ? 4 : 0; // shortcut for right diagonals
+    var tail = checkIncr === 5 ? 4 : 0; // shortcut for right diagonals
     
     var startPoint = 0 + tail;
 
     for (var i = 0; i < winCombos; i++) {
         lastCheck = 0;
-        if (i == winCombos / 2) {
+        if (i === winCombos / 2) {
             startPoint = shelf + tail;
         }
         for (var n = 0; n < 5; n++) {
@@ -139,7 +144,7 @@ function victoryCheck(startIncr, checkIncr, winCombos, shelf) {
             if (lastCheck != 0 && lastCheck != inspectionBoard[searchPoint]) {
                 break;
             }
-            if (n == 4) {
+            if (n === 4) {
                 victoryScreen(lastCheck);
             }
             lastCheck = inspectionBoard[searchPoint];
@@ -154,7 +159,11 @@ function checkPhase() {
     victoryCheck(1, 7, 4, 6); // diagonal from left
     victoryCheck(1, 5, 4, 6); // diagonal from right
 
-    turnPhase();
+    if (rotateTurn) {
+        turnPhase();
+    } else {
+        rotateTurn = true;
+    }
 }
 
 function turnPhase() {
@@ -165,4 +174,71 @@ function turnPhase() {
     } else {
         document.body.style.background = "black";
     }
+}
+
+
+document.getElementById("quad0").addEventListener("mousedown", function(ev) {
+    dragging = true;
+    if (ev.preventDefault) { // prevent firefox image dragging
+        ev.preventDefault();
+    }
+    //ev.stopPropagation();
+    box = ev.target.parentElement;
+    var field = box.getBoundingClientRect();
+    boxCenter = {
+        x: (box.getAttribute("width") / 2) + field.left,
+        y: (box.getAttribute("height") / 2) + field.top
+    }
+    // get starting mouse coordinates on click
+    startMouseCoords = {
+            x: ev.clientX,
+            y: ev.clientY
+    }
+});
+
+document.addEventListener("mousemove", function(ev) {
+    if (dragging) {
+        // get current mouse coordinates on drag
+        var field = box.getBoundingClientRect();
+        var currentMouseCoords = {
+            x: ev.clientX,
+            y: ev.clientY
+        }
+
+        var finalDegree;
+        if ( currentMouseCoords.x !== startMouseCoords.x && currentMouseCoords.y !== startMouseCoords.y ) {
+            var startDegree = Math.atan2( currentMouseCoords.y - boxCenter.y, currentMouseCoords.x - boxCenter.x );
+            startDegree -= Math.atan2( startMouseCoords.y - boxCenter.y, startMouseCoords.x - boxCenter.x );
+            finalDegree = (startDegree * (360 / (2 * Math.PI)));
+        }
+        
+        if (finalDegree > 90 && finalDegree < 180) {
+            finalDegree = 90;
+            dragging = false;
+        }
+        if (finalDegree < 270 && finalDegree > 180 ) {
+            finalDegree = 270;
+            dragging = false;
+        }
+        
+        if (finalDegree < -90 && finalDegree > -180) {
+            finalDegree = -90;
+            dragging = false;
+        }
+        if (finalDegree > -270 && finalDegree < -180 ) {
+            finalDegree = -270;
+            dragging = false;
+        }
+
+        box.style.transform = "rotate(" + finalDegree + "deg)";
+    }
+});
+
+document.addEventListener("mouseup", function() {
+    endingSnap();
+});
+
+function endingSnap() {
+    dragging = false;
+    box.style.transform = "rotate(0deg)";
 }
