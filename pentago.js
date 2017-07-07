@@ -22,6 +22,9 @@ var gameOver = false;
 // rotation variables
 var dragging = false;
 var currentQuad;
+var box;
+var boxCenter = {}; // change this later to use stuff passed by "box" instead
+var startMouseCoords = {};
 
 function pieceClick(target, quad, row, col) {
     if (gameBoard[quad][row][col] == 0 && rotateTurn === false) {
@@ -47,15 +50,15 @@ function refreshBoard() {
         board = document.getElementById(currentQuad);
         for (var row = 0; row < gameBoard[quad].length; row++) {
             currentRow = "row" + row;
-            workingRow = board.getElementById(currentRow);
+            workingRow = board.getElementsByClassName(currentRow);
             for (var col = 0; col < gameBoard[quad][row].length; col++) {
-                pieces = workingRow.getElementsByClassName("piece");
+                var piece = workingRow[col];
                 if (gameBoard[quad][row][col] === 1) {
-                    pieces[col].setAttribute("fill", "white");
+                    piece.setAttribute("fill", "white");
                 } else if (gameBoard[quad][row][col] === -1) {
-                    pieces[col].setAttribute("fill", "black");
+                    piece.setAttribute("fill", "black");
                 } else {
-                    pieces[col].setAttribute("fill", "crimson");
+                    piece.setAttribute("fill", "crimson");
                 }
             }
         }
@@ -176,25 +179,33 @@ function turnPhase() {
     }
 }
 
+function addQuadClickListener(list) {
+    
+    for (var i = 0; i < list.length; i++) {
 
-document.getElementById("quad0").addEventListener("mousedown", function(ev) {
-    dragging = true;
-    if (ev.preventDefault) { // prevent firefox image dragging
-        ev.preventDefault();
+        list[i].addEventListener("mousedown", function(ev) {
+            if (rotateTurn) {
+                dragging = true;
+                if (ev.preventDefault) { // prevent firefox image dragging
+                    ev.preventDefault();
+                }
+                //ev.stopPropagation();
+                box = ev.target.parentElement;
+                var field = box.getBoundingClientRect();
+                boxCenter = {
+                    x: (box.getAttribute("width") / 2) + field.left,
+                    y: (box.getAttribute("height") / 2) + field.top
+                }
+                // get starting mouse coordinates on click
+                startMouseCoords = {
+                        x: ev.clientX,
+                        y: ev.clientY
+                }
+            }
+        });
+
     }
-    //ev.stopPropagation();
-    box = ev.target.parentElement;
-    var field = box.getBoundingClientRect();
-    boxCenter = {
-        x: (box.getAttribute("width") / 2) + field.left,
-        y: (box.getAttribute("height") / 2) + field.top
-    }
-    // get starting mouse coordinates on click
-    startMouseCoords = {
-            x: ev.clientX,
-            y: ev.clientY
-    }
-});
+}
 
 document.addEventListener("mousemove", function(ev) {
     if (dragging) {
@@ -206,7 +217,7 @@ document.addEventListener("mousemove", function(ev) {
         }
 
         var finalDegree;
-        if ( currentMouseCoords.x !== startMouseCoords.x && currentMouseCoords.y !== startMouseCoords.y ) {
+        if ( currentMouseCoords.x !== startMouseCoords.x || currentMouseCoords.y !== startMouseCoords.y ) {
             var startDegree = Math.atan2( currentMouseCoords.y - boxCenter.y, currentMouseCoords.x - boxCenter.x );
             startDegree -= Math.atan2( startMouseCoords.y - boxCenter.y, startMouseCoords.x - boxCenter.x );
             finalDegree = (startDegree * (360 / (2 * Math.PI)));
@@ -235,10 +246,16 @@ document.addEventListener("mousemove", function(ev) {
 });
 
 document.addEventListener("mouseup", function() {
-    endingSnap();
+    if (dragging) {
+        console.log("boop");
+        endingSnap();
+    }
 });
 
 function endingSnap() {
     dragging = false;
     box.style.transform = "rotate(0deg)";
 }
+
+var allQuads = document.getElementsByClassName("quad");
+addQuadClickListener(allQuads);
