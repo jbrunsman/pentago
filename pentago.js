@@ -180,17 +180,22 @@ function turnPhase() {
 }
 
 function addQuadClickListener(list) {
-    
-    for (var i = 0; i < list.length; i++) {
 
+    for (var i = 0; i < list.length; i++) {
         list[i].addEventListener("mousedown", function(ev) {
             if (rotateTurn) {
                 dragging = true;
                 if (ev.preventDefault) { // prevent firefox image dragging
                     ev.preventDefault();
                 }
-                //ev.stopPropagation();
+
                 box = ev.target.parentElement;
+
+                var pieceList = ev.target.getElementsByClassName("piece");
+                for (var i = 0; i < pieceList.length; i++) {
+                    pieceList[i].appendChild(ev.target);
+                }
+
                 var field = box.getBoundingClientRect();
                 boxCenter = {
                     x: (box.getAttribute("width") / 2) + field.left,
@@ -203,7 +208,6 @@ function addQuadClickListener(list) {
                 }
             }
         });
-
     }
 }
 
@@ -225,20 +229,20 @@ document.addEventListener("mousemove", function(ev) {
         
         if (finalDegree > 90 && finalDegree < 180) {
             finalDegree = 90;
-            dragging = false;
+            endingSnap();
         }
         if (finalDegree < 270 && finalDegree > 180 ) {
             finalDegree = 270;
-            dragging = false;
+            endingSnap();
         }
         
         if (finalDegree < -90 && finalDegree > -180) {
             finalDegree = -90;
-            dragging = false;
+            endingSnap();
         }
         if (finalDegree > -270 && finalDegree < -180 ) {
             finalDegree = -270;
-            dragging = false;
+            endingSnap();
         }
 
         box.style.transform = "rotate(" + finalDegree + "deg)";
