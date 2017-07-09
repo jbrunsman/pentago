@@ -1,3 +1,12 @@
+/*
+This game uses these sounds from freesound:
+Cartoon Pop by unfa ( http://freesound.org/people/unfa/sounds/245645/ )
+Pop! by kwahmah ( http://freesound.org/people/kwahmah_02/sounds/260614/ )
+Bamboo Swing C1 by InspectorJ ( http://freesound.org/people/InspectorJ/sounds/394452/ )
+Bamboo Swing B9 by InspectorJ ( http://freesound.org/people/InspectorJ/sounds/394453/ )
+Spacey 1up by GameAudio ( http://freesound.org/people/GameAudio/sounds/220173/ )
+*/
+
 function populateBoard() {
     var board = [];
     for (var quad = 0; quad < 4; quad++) {
