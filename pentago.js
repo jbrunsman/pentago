@@ -162,8 +162,10 @@ function turnPhase() {
     rotateTurn = false;
     if (whiteTurn) {
         document.body.style.background = "white";
+        document.getElementById("title").style.color = "black";
     } else {
         document.body.style.background = "black";
+        document.getElementById("title").style.color = "white";
     }
 }
 
@@ -273,10 +275,12 @@ function victoryScreen(lastCheck) {
     alert = document.getElementById("alert");
     alert.style.visibility = "visible";
     if (lastCheck >= 1) {
+        document.getElementById("title").style.color = "black";
         document.body.style.background = "white";
         alert.style.color = "black";
         alert.innerHTML = "White victory!";
     } else if (lastCheck <= -1) {
+        document.getElementById("title").style.color = "black";
         document.body.style.background = "black";
         alert.style.color = "white"
         alert.innerHTML = "Black victory!";
