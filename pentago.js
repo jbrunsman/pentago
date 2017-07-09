@@ -107,8 +107,9 @@ function checkPhase() {
         return flat;
     }
 
+    var inspectionBoard = flattenBoard();
+
     function victoryCheck(startIncr, checkIncr, winCombos, shelf) {
-        var inspectionBoard = flattenBoard();
         var searchPoint;
         var lastCheck;
         var tail = checkIncr === 5 ? 4 : 0; // shortcut for right diagonals
@@ -140,7 +141,7 @@ function checkPhase() {
     victoryCheck(1, 7, 4, 6); // diagonal from left
     victoryCheck(1, 5, 4, 6); // diagonal from right
 
-    if (rotateTurn) {
+    if (rotateTurn && !gameOver) {
         turnPhase();
     } else {
         rotateTurn = true;
@@ -158,7 +159,7 @@ function turnPhase() {
 }
 
 function pieceClick(target, quad, row, col) {
-    if (gameBoard[quad][row][col] == 0 && rotateTurn === false) {
+    if (gameBoard[quad][row][col] == 0 && rotateTurn === false && gameOver === false) {
         if (whiteTurn) {
             gameBoard[quad][row][col] = 1;
             var popwhite = new Audio('sound/pop_white.wav');
@@ -177,7 +178,7 @@ function pieceClick(target, quad, row, col) {
 function addQuadClickListener(list) {
     for (var i = 0; i < list.length; i++) {
         list[i].addEventListener("mousedown", function(ev) {
-            if (rotateTurn) {
+            if (rotateTurn === true && gameOver === false) {
                 dragging = true;
                 if (ev.preventDefault) { // prevent firefox image dragging
                     ev.preventDefault();
@@ -256,6 +257,23 @@ function endingSnap(rotateDirection) {
     dragging = false;
     var targetQuad = parseInt(box.id.slice(-1));
     rotateQuad(targetQuad,rotateDirection);
+}
+
+function victoryScreen(lastCheck) {
+    gameOver = true;
+    alert = document.getElementById("alert");
+    alert.style.visibility = "visible";
+    if (lastCheck >= 1) {
+        document.body.style.background = "white";
+        alert.style.color = "black";
+        alert.innerHTML = "White victory!";
+    } else if (lastCheck <= -1) {
+        document.body.style.background = "black";
+        alert.style.color = "white"
+        alert.innerHTML = "Black victory!";
+    }
+    var victory = new Audio('sound/victory.wav');
+    victory.play();
 }
 
 addQuadClickListener(document.getElementsByClassName("quad"));

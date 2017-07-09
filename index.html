@@ -4,8 +4,9 @@
         <title>Pentago Online</title>
         <style>
             body { background: white; }
-            #board { margin: auto; width: 700px; }
+            #board, #alert { margin: auto; width: 700px; }
             #quad0, #quad1, #quad2, #quad3 { transform-origin: 50% 50%; }
+            #alert { color: white; visibility: hidden; text-align: center; }
         </style>
     </head>
     <body>
@@ -87,7 +88,7 @@
                 </svg>
 
             </div>
+            <h1 id="alert">bloop</h1>
         <script src="pentago.js"></script>
     </body>
 </html>
-
