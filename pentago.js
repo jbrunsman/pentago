@@ -124,7 +124,7 @@ function flattenBoard() {
 }
 
 function victoryCheck(startIncr, checkIncr, winCombos, shelf) {
-    var inspectionBoard = flattenBoard(); // move
+    var inspectionBoard = flattenBoard();
     var searchPoint;
     var lastCheck;
         
@@ -191,7 +191,9 @@ function addQuadClickListener(list) {
 
                 box = ev.target.parentElement;
 
-                var pieceList = ev.target.getElementsByClassName("piece");
+                // to elevate selected quadrant while spinning
+                // good enough for now, but look into this more later
+                var pieceList = ev.target.getElementsByTagName("*");
                 for (var i = 0; i < pieceList.length; i++) {
                     pieceList[i].appendChild(ev.target);
                 }
@@ -228,21 +230,21 @@ document.addEventListener("mousemove", function(ev) {
         }
         
         if (finalDegree > 90 && finalDegree < 180) {
-            finalDegree = 90;
-            endingSnap();
+            finalDegree = 0;
+            endingSnap(1);
         }
         if (finalDegree < 270 && finalDegree > 180 ) {
-            finalDegree = 270;
-            endingSnap();
+            finalDegree = 0;
+            endingSnap(0);
         }
         
         if (finalDegree < -90 && finalDegree > -180) {
-            finalDegree = -90;
-            endingSnap();
+            finalDegree = 0;
+            endingSnap(0);
         }
         if (finalDegree > -270 && finalDegree < -180 ) {
-            finalDegree = -270;
-            endingSnap();
+            finalDegree = 0;
+            endingSnap(1);
         }
 
         box.style.transform = "rotate(" + finalDegree + "deg)";
@@ -251,15 +253,16 @@ document.addEventListener("mousemove", function(ev) {
 
 document.addEventListener("mouseup", function() {
     if (dragging) {
-        console.log("boop");
-        endingSnap();
+        dragging = false;
+        box.style.transform = "rotate(0deg)"; 
     }
 });
 
-function endingSnap() {
+function endingSnap(rotateDirection) {
     dragging = false;
     box.style.transform = "rotate(0deg)";
+    var targetQuad = parseInt(box.id.slice(-1));
+    rotateQuad(targetQuad,rotateDirection);
 }
 
-var allQuads = document.getElementsByClassName("quad");
-addQuadClickListener(allQuads);
+addQuadClickListener(document.getElementsByClassName("quad"));
