@@ -26,23 +26,6 @@ var box;
 var boxCenter = {}; // change this later to use stuff passed by "box" instead
 var startMouseCoords = {};
 
-function pieceClick(target, quad, row, col) {
-    if (gameBoard[quad][row][col] == 0 && rotateTurn === false) {
-        if (whiteTurn) {
-            gameBoard[quad][row][col] = 1;
-            var popwhite = new Audio('sound/pop_white.wav');
-            popwhite.play();
-            refreshBoard();
-        } else {
-            gameBoard[quad][row][col] = -1;
-            var popblack = new Audio('sound/pop_black.wav');
-            popblack.play();
-            refreshBoard();
-        }
-    checkPhase();
-    }
-}
-
 function refreshBoard() {
     // visibile board reflects the internal board
     for (var quad = 0; quad < gameBoard.length; quad++) {
@@ -105,58 +88,53 @@ function rotateQuad(quad, direction) {
     checkPhase();
 }
 
-function flattenBoard() {
-    var flat = [];
-    var next;
-    for (var quad = 0; quad < 3; quad += 2) {
-        for (var row = 0; row < 3; row++) {
-            for (col = 0; col < 6; col++) {
-                if (col < 3) {
-                    next = gameBoard[quad][row][col];
-                } else {
-                    next = gameBoard[quad+1][row][col-3];
-                }
-                flat.push(next);
-            }
-        }
-    }
-    return flat;
-}
-
-function victoryCheck(startIncr, checkIncr, winCombos, shelf) {
-    var inspectionBoard = flattenBoard();
-    var searchPoint;
-    var lastCheck;
-        
-    var tail = checkIncr === 5 ? 4 : 0; // shortcut for right diagonals
-    
-    var startPoint = 0 + tail;
-
-    for (var i = 0; i < winCombos; i++) {
-        lastCheck = 0;
-        if (i === winCombos / 2) {
-            startPoint = shelf + tail;
-        }
-        for (var n = 0; n < 5; n++) {
-
-            searchPoint = startPoint + (n * checkIncr);
-            
-            if (inspectionBoard[searchPoint] == 0) {
-                break;
-            }
-            if (lastCheck != 0 && lastCheck != inspectionBoard[searchPoint]) {
-                break;
-            }
-            if (n === 4) {
-                victoryScreen(lastCheck);
-            }
-            lastCheck = inspectionBoard[searchPoint];
-        }
-        startPoint += startIncr;
-    }
-}
-
 function checkPhase() {
+    function flattenBoard() {
+        var flat = [];
+        var next;
+        for (var quad = 0; quad < 3; quad += 2) {
+            for (var row = 0; row < 3; row++) {
+                for (col = 0; col < 6; col++) {
+                    if (col < 3) {
+                        next = gameBoard[quad][row][col];
+                    } else {
+                        next = gameBoard[quad+1][row][col-3];
+                    }
+                    flat.push(next);
+                }
+            }
+        }
+        return flat;
+    }
+
+    function victoryCheck(startIncr, checkIncr, winCombos, shelf) {
+        var inspectionBoard = flattenBoard();
+        var searchPoint;
+        var lastCheck;
+        var tail = checkIncr === 5 ? 4 : 0; // shortcut for right diagonals
+        var startPoint = 0 + tail;
+        for (var i = 0; i < winCombos; i++) {
+            lastCheck = 0;
+            if (i === winCombos / 2) {
+                startPoint = shelf + tail;
+            }
+            for (var n = 0; n < 5; n++) {
+                searchPoint = startPoint + (n * checkIncr);
+                if (inspectionBoard[searchPoint] == 0) {
+                    break;
+                }
+                if (lastCheck != 0 && lastCheck != inspectionBoard[searchPoint]) {
+                    break;
+                }
+                if (n === 4) {
+                    victoryScreen(lastCheck);
+                }
+                lastCheck = inspectionBoard[searchPoint];
+            }
+            startPoint += startIncr;
+        }
+    }
+
     victoryCheck(6, 1, 12, 1); // horizontal
     victoryCheck(1, 6, 12, 6); // vertical
     victoryCheck(1, 7, 4, 6); // diagonal from left
@@ -179,8 +157,24 @@ function turnPhase() {
     }
 }
 
-function addQuadClickListener(list) {
+function pieceClick(target, quad, row, col) {
+    if (gameBoard[quad][row][col] == 0 && rotateTurn === false) {
+        if (whiteTurn) {
+            gameBoard[quad][row][col] = 1;
+            var popwhite = new Audio('sound/pop_white.wav');
+            popwhite.play();
+            refreshBoard();
+        } else {
+            gameBoard[quad][row][col] = -1;
+            var popblack = new Audio('sound/pop_black.wav');
+            popblack.play();
+            refreshBoard();
+        }
+    checkPhase();
+    }
+}
 
+function addQuadClickListener(list) {
     for (var i = 0; i < list.length; i++) {
         list[i].addEventListener("mousedown", function(ev) {
             if (rotateTurn) {
@@ -260,7 +254,6 @@ document.addEventListener("mouseup", function() {
 
 function endingSnap(rotateDirection) {
     dragging = false;
-    box.style.transform = "rotate(0deg)";
     var targetQuad = parseInt(box.id.slice(-1));
     rotateQuad(targetQuad,rotateDirection);
 }
