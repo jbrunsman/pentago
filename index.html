@@ -4,14 +4,16 @@
         <title>Pentago Online</title>
         <style>
             body { background: white; }
-            #board { margin: auto; width: 625px; }
+            #board, #instructions { margin: auto; width: 625px; }
             #quad0, #quad1, #quad2, #quad3 { transform-origin: 50% 50%; }
-            #alert { color: white; visibility: hidden; text-align: center; font-family: sans-serif; }
-            #title { color: black; text-align: center; font-family: sans-serif;}
+            #alert { visibility: hidden; text-align: center; font-family: sans-serif; }
+            #title { text-align: center; font-family: sans-serif; }
+            #instructions { font-family: sans-serif; }
+            .words { color: black; }
         </style>
     </head>
     <body>
-        <div id="title">
+        <div id="title" class="words">
             <h1>JavaScript Pentago</h1>
             <p>by Jake Brunsman</p>
         </div>
@@ -83,7 +85,21 @@
             </svg>
             
         </div>
-        <h1 id="alert">bloop</h1>
+        <h1 id="alert" class="words">bloop</h1>
         <script src="pentago.js"></script>
+        <div id="instructions" class="words">
+            <h2>
+                How to Play
+            </h2>
+            <p>
+                Place a stone by clicking any space
+            </p>
+            <p>
+                Spin a quadrant by dragging and rotating 90 degrees
+            </p>
+            <p>
+                First player to get 5 in a row wins!
+            </p>
+        </div>
     </body>
 </html>

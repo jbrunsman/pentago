@@ -161,11 +161,9 @@ function turnPhase() {
     whiteTurn = !whiteTurn;
     rotateTurn = false;
     if (whiteTurn) {
-        document.body.style.background = "white";
-        document.getElementById("title").style.color = "black";
+        changeColor("black");
     } else {
-        document.body.style.background = "black";
-        document.getElementById("title").style.color = "white";
+        changeColor("white");
     }
 }
 
@@ -275,18 +273,27 @@ function victoryScreen(lastCheck) {
     alert = document.getElementById("alert");
     alert.style.visibility = "visible";
     if (lastCheck >= 1) {
-        document.getElementById("title").style.color = "black";
-        document.body.style.background = "white";
-        alert.style.color = "black";
+        changeColor("black");
         alert.innerHTML = "White victory!";
     } else if (lastCheck <= -1) {
-        document.getElementById("title").style.color = "black";
-        document.body.style.background = "black";
-        alert.style.color = "white"
+        changeColor("white");
         alert.innerHTML = "Black victory!";
     }
     var victory = new Audio('sound/victory.wav');
     victory.play();
+}
+
+function changeColor(color) {
+    // argument color is color of text
+    wordsList = document.getElementsByClassName("words");
+    for (var i = 0; i < wordsList.length; i++) {
+        wordsList[i].style.color = color;
+    }
+    if (color === "white") {
+        document.body.style.background = "black";
+    } else if (color === "black") {
+        document.body.style.background = "white";
+    }
 }
 
 addQuadClickListener(document.getElementsByClassName("quad"));
