@@ -213,6 +213,21 @@ function addQuadClickListener(list) {
                         y: ev.clientY
                 }
             }
+
+            // restart game on clicking
+            var alert = document.getElementById("alert");
+            if (gameOver) {
+                gameBoard = populateBoard();
+                whiteTurn = true;
+                rotateTurn = false;
+                dragging = false;
+                changeColor("black");
+                alert.style.visibility = "hidden";
+                refreshBoard();
+            }
+            if (gameOver === true && alert.style.visibility === "hidden") {
+                gameOver = false;
+            }
         });
     }
 }
@@ -272,12 +287,13 @@ function victoryScreen(lastCheck) {
     gameOver = true;
     alert = document.getElementById("alert");
     alert.style.visibility = "visible";
+    alerttext = document.getElementById("alerttext");
     if (lastCheck >= 1) {
         changeColor("black");
-        alert.innerHTML = "White victory!";
+        alerttext.innerHTML = "White victory!";
     } else if (lastCheck <= -1) {
         changeColor("white");
-        alert.innerHTML = "Black victory!";
+        alerttext.innerHTML = "Black victory!";
     }
     var victory = new Audio('sound/victory.wav');
     victory.play();
